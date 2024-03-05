@@ -9,6 +9,7 @@ enum Entrypoint {
         
         let app = Application(env)
         app.http.server.configuration.hostname = "0.0.0.0"
+
         defer { app.shutdown() }
         
         do {

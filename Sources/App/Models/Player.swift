@@ -8,20 +8,30 @@
 import Foundation
 import Vapor
 
-struct Player {
+class Player {
     let id: UUID
     let ws: WebSocket
-    var myTurn: Bool
+    var myTurn: Bool { didSet {
+        delegate?.sendTurn(self)
+    }}
     var playerScore: Int {
         return score
     }
     private var score: Int = 0
+    let delegate: GameSystemPlayerDelegate?
 
-    init(id: UUID = UUID(), ws: WebSocket, myTurn: Bool = false) {
+    init(id: UUID = UUID(), ws: WebSocket, myTurn: Bool = false, delegate: GameSystemPlayerDelegate? = nil) {
         self.id = id
         self.ws = ws
         self.myTurn = myTurn
+        self.delegate = delegate
+    }
+    func plusScore() {
+        self.score += 1
     }
 }
 
 
+protocol GameSystemPlayerDelegate {
+    func sendTurn(_ player: Player)
+}
