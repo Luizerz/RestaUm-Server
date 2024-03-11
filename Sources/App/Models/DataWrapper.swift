@@ -28,4 +28,5 @@ enum ContentType: Codable {
     //To Server DTO
     case ChatTextToServer
     case PlayToServer
+    case SurrenderToServer
 }

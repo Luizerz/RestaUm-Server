@@ -35,7 +35,6 @@ class GameSystem {
             self.verifyDTO(dataWrapper: dataWrapper, match: match, player: newPlayer)
         }
         newPlayer.ws.onClose.whenSuccess { callback in
-            match.playerSurrender(newPlayer)
             match.removePlayer(player: newPlayer)
             if match.numberOfConnectedPlayers == 0 { self.matches.removeAll { $0.id == match.id } }
         }
@@ -48,6 +47,8 @@ class GameSystem {
         case .PlayToServer:
             let data = try! JSONDecoder().decode(Play.self, from: dataWrapper.data)
             match.play(data, from: player)
+        case .SurrenderToServer:
+            match.playerSurrender(player)
         default:
             print("Nao é pra acontecer")
         }

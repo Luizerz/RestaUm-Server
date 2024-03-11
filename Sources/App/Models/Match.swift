@@ -88,6 +88,7 @@ class Match {
 
     private func sendGameboard(_ player: Player) {
         self.players.forEach {
+
             if $0.id != player.id {
                 let wrapper = DataWrapper(data: gameBoard.board, contentType: .PlayResponseToClient).toData()
                 $0.ws.send(raw: wrapper, opcode: .binary)
